@@ -10,7 +10,7 @@ From datasheet read which buss is connected with timer that you are going to use
 
 ![image](https://github.com/jmamej/STM32_SW_Button_Debounce/assets/57408600/180c77f1-726e-4b2a-98b2-87b50c230dbb)
 
-<i>Part of datasheet block diagram</i>
+*Part of datasheet block diagram*
 
 Set timer accordingly (for 64 MHz clock)
 
@@ -22,7 +22,7 @@ Set timer accordingly (for 64 MHz clock)
 
 ![image](https://github.com/jmamej/STM32_SW_Button_Debounce/assets/57408600/09820add-8d8f-434c-8df1-77f45ee49b3e)
 
-<i>Prescaler and counter period are by default incremented by 1</i>
+*Prescaler and counter period are by default incremented by 1*
 
 
 in main.c place HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) 
@@ -53,6 +53,6 @@ For more information please review code or this simple diagram:
 
 ![image](https://github.com/jmamej/STM32_SW_Button_Debounce/assets/57408600/42b844fd-a67f-41fe-9980-e3eeb56ed15e)
 
-<i>Block diagram</i>
+*Block diagram*
 
 
