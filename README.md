@@ -1,5 +1,9 @@
 # Button debounce - software approach
 
+
+## 1. EXTI + TIM
+
+
 This software approach uses both external and timer interrupt.
 
 Buttons are initialized as GPIO_EXTI. Remember PA8 and PC8 will be interpreted by CPU as the same interrupt source.
@@ -55,4 +59,51 @@ For more information please review code or this simple diagram:
 
 *Block diagram*
 
+## 2. EXTI
 
+
+This software approach uses only external interrupt.
+
+Initiate buttons os above.
+
+
+```
+#include "Buttons.h"
+
+long current_time, button_check_timer;
+
+int main() {
+  while (1) {
+	  current_time = HAL_GetTick();		/* check current time */
+	  if (button_check_flag && current_time >= button_check_timer) {
+		  buttons_resolve_press();
+		  button_check_timer = current_time + 1;
+	  }	
+  }
+}
+```
+
+button_check_flag is set when HAL_GPIO_EXTI_Callback detects falling edge:
+
+```
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	buttons_check_falling_edge(GPIO_Pin);
+}
+
+/* Function checking for first falling edge on button pin - sets button_check_flag if found */
+void buttons_check_falling_edge(uint16_t irq_pin) {
+	for (int i = 0; i < NUM_OF_BUTTONS; i++) {
+		if (irq_pin == button_pins[i]) {
+			button_check_flag = 1;
+			if (!button_flag[i]) {
+				button_flag[i] = 1;
+				button_press_state[i] = 0;
+				button_press_timer[i] = 0;
+				button_check_flag = 1;
+				press_timer = HAL_GetTick();
+			}
+		}
+	}
+}
+```
+Files for following approach are in X folder.
